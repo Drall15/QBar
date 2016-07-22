@@ -20,7 +20,7 @@ function AzMsg(msg) DEFAULT_CHAT_FRAME:AddMessage(tostring(msg):gsub("|1","|cfff
 -- Constants
 local UPDATE_DELAY = 0.25;
 local ITEMID_PATTERN = "item:(%d+)";
-local QUEST_TOKEN = select(10,GetAuctionItemClasses());
+local QUEST_TOKEN =  GetItemClassInfo(LE_ITEM_CLASS_QUESTITEM or 12);
 local slots = {
 	"HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "ShirtSlot", "TabardSlot", "WristSlot",
 	"HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot", "Trinket0Slot", "Trinket1Slot",
@@ -415,9 +415,9 @@ function core:UpdateCooldowns()
 	for i = 1, self.shownItems do
 		local bag, slot = self.items[i]:GetAttribute("bag"), self.items[i]:GetAttribute("slot");
 		if (bag) then
-			CooldownFrame_SetTimer(self.items[i].cooldown,GetContainerItemCooldown(bag,slot));
+			CooldownFrame_Set(self.items[i].cooldown,GetContainerItemCooldown(bag,slot));
 		else
-			CooldownFrame_SetTimer(self.items[i].cooldown,GetInventoryItemCooldown("player",slot));
+			CooldownFrame_Set(self.items[i].cooldown,GetInventoryItemCooldown("player",slot));
 		end
 	end
 end
